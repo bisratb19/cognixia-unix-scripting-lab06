@@ -26,4 +26,10 @@ for IP_ADD in $IP_ADD_1
 do
 	PORT_CHECKER=$(nc -zv $IP_ADD 22 | printf $?)
 	if [ $PORT_CHECKER < 1 ]; then
-		ssh -i $IDENTITY_FILE_1 ec2-user@$IP_ADD_1
+		ssh -i $IDENTITY_FILE_1 ec2-user@$IP_ADD "printf $HOSTNAME;wget https://raw.githubusercontent.com/bisratb19/cognixia-unix-scripting-lab01/main/lab01.sh;./lab01.sh;exit" #try it like this first
+		scp -i $IDENTITY_FILE_1 ec2-user@$IP_ADD:~/report_*.log ~/. #fix file name issues
+	else
+		printf 'Port 22 is not open. Failed to connect and print a report'
+	fi
+done
+exit 0
